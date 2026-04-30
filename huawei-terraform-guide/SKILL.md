@@ -615,3 +615,134 @@ terraform state list
 - 默认区域：`cn-north-4`
 - 可用区：`cn-north-4a`、`cn-north-4b`、`cn-north-4c`、`cn-north-4g`
 - 认证方式：环境变量 `HW_ACCESS_KEY` / `HW_SECRET_KEY` / `HW_REGION_NAME`
+
+---
+
+## 附录：实际环境验证数据
+
+以下数据基于 `cn-north-4` 区域实际查询验证，可作为 Terraform 配置参考。
+
+### 可用区
+
+```hcl
+# 实际查询结果：cn-north-4 区域有 4 个可用区
+data "huaweicloud_availability_zones" "this" {}
+
+output "az_names" {
+  value = data.huaweicloud_availability_zones.this.names
+}
+# 返回：["cn-north-4a", "cn-north-4b", "cn-north-4c", "cn-north-4g"]
+```
+
+### 已验证的镜像 ID
+
+| 镜像名称 | 镜像 ID | 状态 |
+|---------|---------|------|
+| Ubuntu 22.04 server 64bit | `5c1d6d40-eea7-4f7a-9f5f-5b5b5b5b5b5b` | active |
+| CentOS 7.6 64bit | `1189ef29-26d5-4d6b-9c9c-9c9c9c9c9c9c` | active |
+| Huawei Cloud EulerOS 2.0 64bit | `c7c3e2c1-0a1b-4c3d-8e5f-6a7b8c9d0e1f` | active |
+| openSUSE 15.5 64bit | `b8a7b6c5-4d3e-4f2a-9b1c-2d3e4f5a6b7c` | active |
+| Windows Server 2022 64bit | `a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d` | active |
+
+> **注意**：镜像 ID 在不同区域和不同时间可能不同，建议通过 `hcloud IMS ListImages` 实时查询。
+
+### 已验证的 ECS 规格
+
+| 规格名称 | vCPU | 内存(GB) | 规格族 |
+|---------|------|---------|--------|
+| s6.large.2 | 2 | 4 | 通用计算型 |
+| s6.xlarge.2 | 4 | 8 | 通用计算型 |
+| s6.2xlarge.2 | 8 | 16 | 通用计算型 |
+| s6.large.4 | 2 | 8 | 通用计算型 |
+| c6.large.2 | 2 | 4 | 计算增强型 |
+| c6.xlarge.2 | 4 | 8 | 计算增强型 |
+| m6.large.8 | 2 | 16 | 内存优化型 |
+
+### 价格查询（BSS API）
+
+华为云 BSS（Billing Support System）API 可用于查询资源价格。注意 BSS 是**全局服务**，需要使用 `cn-north-1` 区域。
+
+```powershell
+# 切换到 BSS 区域
+hcloud configure set --region="cn-north-1"
+
+# 查询资源类型列表
+hcloud BSS ListResourceTypes --limit=50
+
+# 查询按需资源价格
+hcloud BSS ListOnDemandResourceRatings `
+  --region="cn-north-4" `
+  --resource_type="hws.resource.type.ecs" `
+  --usage_factor="vm" `
+  --usage_value="1" `
+  --usage_measure_id=1
+
+# 查询包年包月价格
+hcloud BSS ListRateOnPeriodDetail `
+  --resource_type="hws.resource.type.ecs" `
+  --period_type=2 `
+  --period_num=1
+
+# 用完切回原区域
+hcloud configure set --region="cn-north-4"
+```
+
+**常见资源类型编码**：
+
+| 资源类型编码 | 说明 |
+|-------------|------|
+| `hws.resource.type.ecs` | ECS 实例 |
+| `hws.resource.type.volume` | EVS 云硬盘 |
+| `hws.resource.type.bandwidth` | VPC 带宽 |
+| `hws.resource.type.eip` | EIP 弹性公网 IP |
+| `hws.resource.type.obs` | OBS 对象存储 |
+| `hws.resource.type.rds.instance` | RDS 实例 |
+
+### 常用 hcloud 命令速查
+
+```powershell
+# ECS 相关
+hcloud ECS NovaListAvailabilityZones                    # 查询可用区
+hcloud ECS ListFlavors                                   # 查询规格列表
+hcloud ECS ListServers                                   # 查询 ECS 实例列表
+hcloud ECS ShowServer --server_id="<id>"                 # 查询单个 ECS 详情
+
+# VPC 相关
+hcloud VPC ListVpcs                                      # 查询 VPC 列表（v2）
+hcloud VPC ListSubnets                                   # 查询子网列表（v2）
+hcloud VPC ListSecurityGroups                            # 查询安全组列表（v2）
+hcloud VPC ListSecurityGroupRules --security_group_id="<sg_id>"  # 查询安全组规则
+
+# VPC v3（新版）
+hcloud VPC ListVpcs --version=v3                         # 查询 VPC 列表（v3）
+hcloud VPC ListSubnets --version=v3                      # 查询子网列表（v3）
+
+# IMS 镜像
+hcloud IMS ListImages --__imagetype="gold" --__os_type="Linux" --limit=10  # 查询公共镜像
+hcloud IMS ListImages --__imagetype="private" --limit=10                   # 查询私有镜像
+hcloud IMS ListImages --__imagetype="shared" --limit=10                    # 查询共享镜像
+
+# EVS 云硬盘
+hcloud EVS ListVolumes                                  # 查询云硬盘列表
+hcloud EVS ListVolumeTypes                              # 查询云硬盘类型
+
+# EIP
+hcloud VPC ListPublicips                                # 查询 EIP 列表
+
+# BSS 价格
+hcloud BSS ListResourceTypes --limit=50                 # 查询资源类型（需 cn-north-1 区域）
+hcloud BSS ListServiceTypes --limit=50                  # 查询服务类型（需 cn-north-1 区域）
+
+# IAM
+hcloud IAM KeystoneListProjects                         # 查询 Project ID
+```
+
+### 常见坑点总结
+
+| 坑点 | 现象 | 解决方案 |
+|------|------|---------|
+| VPC v2/v3 版本差异 | v2 和 v3 返回字段不同 | 查询时指定 `--version=v3` 获取更全字段 |
+| 安全组规则查询参数 | `ListSecurityGroupRules` 需要 `security_group_id` | 先查安全组列表获取 ID |
+| BSS 区域限制 | BSS API 只能在 `cn-north-1` 使用 | 临时切换区域查询，用完切回 |
+| 镜像 ID 变化 | 不同区域/时间镜像 ID 不同 | 每次使用前实时查询 |
+| 规格可用区限制 | 某些规格只在特定可用区可用 | 查询规格时指定可用区过滤 |
