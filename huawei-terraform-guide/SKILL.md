@@ -1,6 +1,6 @@
 ---
 name: huawei-terraform-guide
-description: 华为云 Terraform 部署指南，涵盖 VPC/子网/ECS/EIP/OBS 等资源的 Terraform 配置、数据源查询、常见踩坑及最佳实践
+description: 使用 Terraform 在华为云上创建和管理 VPC/子网/ECS/EIP/OBS 等云资源的指南，涵盖数据源查询、常见踩坑及最佳实践
 ---
 
 # 华为云 Terraform 部署指南
