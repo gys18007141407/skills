@@ -513,7 +513,7 @@ hcloud OBS ls obs://<桶名> -limit=10
 - 配置文件路径：`~/.obsutilconfig`（Windows: `C:\Users\<用户>\.obsutilconfig`）
 - 如果未配置 AK/SK，执行 `hcloud OBS ls` 会提示 "Please set ak, sk and endpoint in the configuration file!"
 - OBS 的命令风格与其他服务不同，使用 `ls`、`cp`、`rm` 等类 Unix 命令，而非 API 操作名
-
+- 可尝试从环境变量中读取 **Terraform** 使用的环境变量：HW_ACCESS_KEY、HW_SECRET_KEY
 ---
 
 ## 场景十：ELB（弹性负载均衡）查询
