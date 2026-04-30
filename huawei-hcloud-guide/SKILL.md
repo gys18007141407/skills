@@ -16,6 +16,18 @@ description: 华为云 hcloud CLI 工具使用指南
 - 已设置默认区域（如 `cn-north-4`）
 - 如需调用 BSS 服务，需切换到 `cn-north-1` 区域
 
+## 安装 hcloud
+
+如果没安装 hcloud，使用以下地址下载压缩包后，解压可得到 hcloud 二进制文件，将 hcloud 路径配置到环境变量
+
+官方下载源：https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/
+- "Linux-x86_64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-linux-amd64.tar.gz"
+- "Linux-aarch64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-linux-arm64.tar.gz"
+- "Windows-amd64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-windows-amd64.zip"
+- "Windows-x86_64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-windows-amd64.zip"
+- "Darwin-x86_64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-mac-amd64.tar.gz"
+- "Darwin-arm64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-mac-arm64.tar.gz"
+
 ## 通用技巧
 
 ### 1. 跳过证书验证（内网/测试环境）
