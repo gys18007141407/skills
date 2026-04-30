@@ -18,7 +18,7 @@ description: 使用 Terraform 在华为云上创建和管理 VPC/子网/ECS/EIP/
 
 本 Skill 还提供使用 Terraform 部署华为云资源的实战经验，涵盖 **Provider 配置**、**VPC/子网**、**ECS 实例**、**EIP**、**安全组**、**OBS 桶** 等核心资源，以及大量踩坑经验，帮助减少 Terraform 部署的试错次数。
 
-你可以通过华为云 hcloud CLI 工具进行辅助。
+你可以通过华为云 hcloud CLI 工具进行辅助查询信息，比如用户信息、项目信息、规格信息等等，但不能直接通过 hcloud CLI 操作资源。
 
 ---
 
