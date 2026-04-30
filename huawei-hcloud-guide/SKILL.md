@@ -36,6 +36,8 @@ hcloud <service> <operation> --cli-query="flavors[].[id,name,vcpus,ram]"
 hcloud <service> <operation> --limit=5
 ```
 
+> ⚠️ **注意**：并非所有 API 都支持 `--limit` 参数。例如 `EVS CinderListVolumeTypes` 就不支持 `--limit`，会报错"不正确的参数:limit"。
+
 ### 4. 按条件过滤
 
 ```bash
@@ -326,6 +328,8 @@ hcloud VPC ListFirewall
 ```bash
 hcloud EVS CinderListVolumeTypes
 ```
+
+> ⚠️ **注意**：`CinderListVolumeTypes` **不支持 `--limit` 参数**，会报错"不正确的参数:limit"。直接执行即可返回所有类型。
 
 ### 5.2 查询已有云硬盘列表
 
@@ -713,4 +717,4 @@ python -c "import json; d=json.load(open('flavor.json')); print(d['flavors'][0][
 - 示例价格（cn-north-4 区域）：
   - s6.small.1 Linux：包月 32.2 元，按需 0.07 元/小时
 - cn-north-4 可用区：cn-north-4a、cn-north-4b、cn-north-4c、cn-north-4g
-- cn-north-4 Project ID：818fa5146cef408ca0332b2a7d947e57
+- Project ID 可通过 `hcloud IAM KeystoneListProjects` 查询
