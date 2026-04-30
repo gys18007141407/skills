@@ -1,6 +1,6 @@
 ---
 name: huawei-hcloud-guide
-description: 华为云 hcloud CLI 工具使用指南，涵盖 ECS/VPC/EVS/EIP/IMS/BSS/OBS 资源查询、规格查询、可用区查询、跨区域查询、已有资源查询及常见坑点排查
+description: 华为云 hcloud CLI 工具使用指南
 ---
 
 # 华为云 hcloud 命令行工具使用指南
