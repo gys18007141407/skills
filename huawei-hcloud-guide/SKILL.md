@@ -20,13 +20,101 @@ description: 华为云 hcloud CLI 工具使用指南
 
 如果没安装 hcloud，使用以下地址下载压缩包后，解压可得到 hcloud 二进制文件，将 hcloud 路径配置到环境变量
 
-官方下载源：https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/
-- "Linux-x86_64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-linux-amd64.tar.gz"
-- "Linux-aarch64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-linux-arm64.tar.gz"
-- "Windows-amd64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-windows-amd64.zip"
-- "Windows-x86_64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-windows-amd64.zip"
-- "Darwin-x86_64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-mac-amd64.tar.gz"
-- "Darwin-arm64": "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-mac-arm64.tar.gz"
+### 1. 官方下载地址
+
+所有平台的下载包均托管在华为云 OBS 上：
+
+| 平台 | 架构 | 下载地址 | 包格式 |
+|------|------|---------|--------|
+| Windows | amd64 / x86_64 | `https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-windows-amd64.zip` | .zip |
+| Linux | amd64 / x86_64 | `https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-linux-amd64.tar.gz` | .tar.gz |
+| Linux | aarch64 / arm64 | `https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-linux-arm64.tar.gz` | .tar.gz |
+| macOS | amd64 / x86_64 | `https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-mac-amd64.tar.gz` | .tar.gz |
+| macOS | arm64 (Apple Silicon) | `https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-mac-arm64.tar.gz` | .tar.gz |
+
+### 2. 下载命令示例
+
+**Windows (PowerShell)：**
+
+```powershell
+Invoke-WebRequest -Uri "https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-windows-amd64.zip" -OutFile "hcloud.zip"
+```
+
+**Linux / macOS：**
+
+```bash
+# Linux amd64
+curl -O https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-linux-amd64.tar.gz
+
+# macOS arm64
+curl -O https://cn-north-4-hdn-koocli.obs.cn-north-4.myhuaweicloud.com/cli/latest/huaweicloud-cli-mac-arm64.tar.gz
+```
+
+### 3. 解压
+
+**Windows (PowerShell)：**
+
+```powershell
+Expand-Archive -Path "hcloud.zip" -DestinationPath "hcloud_extracted" -Force
+```
+
+> ⚠️ **踩坑经验**：Windows 自带的 `Expand-Archive` 解压 zip 包后，`hcloud.exe` 通常在解压目录的根目录下，不在子目录中。如果解压后找不到 `hcloud.exe`，检查解压目录结构。
+
+**Linux / macOS：**
+
+```bash
+tar -xzf huaweicloud-cli-linux-amd64.tar.gz
+```
+
+### 4. 安装路径
+
+| 平台 | 推荐路径 |
+|------|---------|
+| Windows | `C:\hcloud\hcloud.exe` |
+| Linux | `/usr/local/bin/hcloud` 或 `~/hcloud/hcloud` |
+| macOS | `/usr/local/bin/hcloud` 或 `~/hcloud/hcloud` |
+
+**Windows 示例：**
+
+```powershell
+# 创建目标目录
+New-Item -ItemType Directory -Path "C:\hcloud" -Force
+
+# 复制 hcloud.exe
+Copy-Item -Path "hcloud_extracted\hcloud.exe" -Destination "C:\hcloud\hcloud.exe" -Force
+```
+
+**Linux / macOS 示例：**
+
+```bash
+chmod +x hcloud
+sudo mv hcloud /usr/local/bin/hcloud
+```
+
+### 5. 配置 PATH 环境变量
+
+**Windows (PowerShell, 永久生效)：**
+
+```powershell
+# 将 C:\hcloud 添加到系统 PATH（需要管理员权限）
+[Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path", "Machine") + ";C:\hcloud", "Machine")
+```
+
+> 💡 **提示**：如果不想修改系统 PATH 或者没有权限操作，也可以在每次使用前临时添加：
+> ```powershell
+> $env:Path = "$env:Path;C:\hcloud"
+> ```
+
+**Linux / macOS：**
+
+如果安装到 `/usr/local/bin/`，通常已在 PATH 中，无需额外配置。
+
+如果安装到自定义路径（如 `~/hcloud/`），添加到 `~/.bashrc` 或 `~/.zshrc`：
+
+```bash
+echo 'export PATH="$HOME/hcloud:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
 
 ## 通用技巧
 
