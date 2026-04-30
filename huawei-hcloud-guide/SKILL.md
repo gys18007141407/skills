@@ -470,7 +470,7 @@ hcloud BSS ListOnDemandResourceRatings --cli-region=cn-north-1 --project_id="<PR
 
 ### 实战经验
 
-- **BSS 服务必须在 `cn-north-1` 区域调用**，即使资源在其他区域
+- **BSS 服务必须在 `cn-north-1` 区域调用。不要修改用户的区域配置，仅仅在命令行参数指定 --cli-region=cn-north-1 临时查询即可**，即使资源在其他区域
 - `project_id` 通过 `hcloud IAM KeystoneListProjects` 获取（不是 `ECS ListProjects`）
 - 云服务类型编码：ECS = `hws.service.type.ec2`
 - 资源类型编码：
