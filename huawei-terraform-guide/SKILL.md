@@ -57,6 +57,15 @@ description: 使用 Terraform 在华为云上创建和管理 VPC/子网/ECS/EIP/
 - 已配置华为云认证环境变量（`HW_ACCESS_KEY` / `HW_SECRET_KEY` / `HW_REGION_NAME`）
 - 或使用 Provider 中的 `access_key` / `secret_key` / `region` 参数
 
+## 安装 terraform
+
+如果没安装 terraform，使用以下地址下载压缩包后，解压可得到 terraform 二进制文件，将 terraform 路径配置到环境变量
+
+官方下载源："https://releases.hashicorp.com/terraform/{version}/terraform_{version}_windows_{arch}.zip"
+- "Linux-x86_64": "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_linux_amd64.zip"
+- "Linux-aarch64": "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_linux_arm64.zip"
+- "Windows-amd64": "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_windows_amd64.zip"
+
 ## 认证方式
 
 ### 方式一：环境变量（推荐）
